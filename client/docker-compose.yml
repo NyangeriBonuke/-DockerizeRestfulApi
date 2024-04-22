@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mongo_db:
+    container_name: database_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      APP_NAME: DockerizeRestfulApi
+      PORT: 8000
+      DB_URI: mongodb://mongo_db:27017/docker-learn
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
